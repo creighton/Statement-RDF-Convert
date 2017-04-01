@@ -1,0 +1,16 @@
+{
+  "name": "statement-to-rdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "n3": "^0.9.1",
+    "ne": "0.0.26",
+    "request": "^2.81.0"
+  }
+}

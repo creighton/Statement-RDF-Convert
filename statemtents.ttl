@@ -1,0 +1,20 @@
+@prefix xapi: <https://w3id.org/xapi#>.
+@prefix lrsstmt: <https://lrs.adlnet.gov/xapi/statements/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+<https://lrs.adlnet.gov/xapi/statements/9929fe99-5f01-4492-95b0-e35ce7b14a70> a xapi:Statement;
+    xapi:timestamp "2017-03-31T16:17:17-06:00";
+    xapi:stored "2017-03-31T22:25:17.043623+00:00";
+    xapi:version "1.0.0";
+    xapi:Actor <http://moodle.x-in-y.com#1>.
+<http://moodle.x-in-y.com#1> a <http://xmlns.com/foaf/spec/#Agent>;
+    <http://xmlns.com/foaf/spec/#name> "guest".
+<https://lrs.adlnet.gov/xapi/statements/9929fe99-5f01-4492-95b0-e35ce7b14a70> xapi:Verb <https://brindlewaye.com/xAPITerms/verbs/loggedin/>.
+<https://brindlewaye.com/xAPITerms/verbs/loggedin/> xapi:display "logged in to"@en.
+<https://lrs.adlnet.gov/xapi/statements/9929fe99-5f01-4492-95b0-e35ce7b14a70> xapi:Object <http://moodle.x-in-y.com>.
+<http://moodle.x-in-y.com> xapi:objectType xapi:Activity;
+    xapi:activityName "Moodle Area for Researchers"@en;
+    xapi:description "Let's Moodling!"@en;
+    a <http://id.tincanapi.com/activitytype/site>;
+    <http://lrs.learninglocker.net/define/extensions/moodle_course> "{\"legacyfiles\":\"0\",\"calendartype\":\"\",\"visible\":\"1\",\"marker\":\"0\",\"cacherev\":\"1490234493\",\"maxbytes\":\"0\",\"id\":\"1\",\"showreports\":\"0\",\"category\":\"0\",\"startdate\":\"0\",\"defaultgroupingid\":\"0\",\"summaryformat\":\"0\",\"groupmode\":\"0\",\"visibleold\":\"1\",\"showgrades\":\"1\",\"theme\":\"\",\"shortname\":\"MAR\",\"enablecompletion\":\"0\",\"type\":\"site\",\"requested\":\"0\",\"format\":\"site\",\"sortorder\":\"1\",\"completionnotify\":\"0\",\"fullname\":\"Moodle Area for Researchers\",\"lang\":\"\",\"timecreated\":\"1489219726\",\"url\":\"http://moodle.x-in-y.com\",\"groupmodeforce\":\"0\",\"summary\":\"<p>Let's Moodling!</p>\",\"idnumber\":\"\",\"newsitems\":\"3\",\"timemodified\":\"1489329121\"}".
