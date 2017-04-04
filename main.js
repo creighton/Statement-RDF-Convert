@@ -8,7 +8,8 @@ var writer = n3.Writer({
         xapi: 'https://w3id.org/xapi#',
         lrsstmt: 'https://lrs.adlnet.gov/xapi/statements/',
         rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-        foaf: 'http://xmlns.com/foaf/0.1/'
+        foaf: 'http://xmlns.com/foaf/0.1/#',
+        rdfs: 'http://www.w3.org/2000/01/rdf-schema#'
     }
 });
 
@@ -20,7 +21,7 @@ var convert = function (sr, writer, callback) {
     };
 
     // statement.convert(sr.statements[0], writer);
-    console.log(sr.statements[0]);
+    // console.log(sr.statements[0]);
 
     callback(sr);
 };
@@ -47,8 +48,8 @@ var handleStmtResponse = function (err, res, body) {
     if (err) return console.log('Error: ', err);
     var stmtResult = JSON.parse(body);
     count += stmtResult.statements.length;
-    // convert(stmtResult, writer, followMore);
-    convert(stmtResult, writer, noMore);
+    convert(stmtResult, writer, followMore);
+    // convert(stmtResult, writer, noMore);
 };
 
 var makeRequest = function(more, callback) {

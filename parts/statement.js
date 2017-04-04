@@ -5,7 +5,7 @@ var util = require('../util/util')
     ,result = require('./result')
     ,context = require('./context')
     ,authority = require('./authority')
-//     ,attachments = require('./attachments')
+    ,attachments = require('./attachments')
     ;
 
 var convertParts = function (stmt, writer, substmt) {
@@ -16,7 +16,7 @@ var convertParts = function (stmt, writer, substmt) {
     context.convert(stmt, writer);
     // // substmt = no authority
     if (!substmt) authority.convert(stmt, writer);
-    // attachments.convert(stmt, writer);
+    attachments.convert(stmt, writer);
 };
 
 module.exports.convert = function (stmt, writer) {

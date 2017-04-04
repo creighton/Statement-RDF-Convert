@@ -1,7 +1,7 @@
 let getObjectType = function (actor) {
     return (actor.objectType) ?
-            'http://xmlns.com/foaf/spec/#' + actor.objectType :
-            'http://xmlns.com/foaf/spec/#Agent';
+            'http://xmlns.com/foaf/0.1/#' + actor.objectType :
+            'http://xmlns.com/foaf/0.1/#Agent';
 };
 
 // TODO: handle anonymous
@@ -23,9 +23,9 @@ let getId = function (actor) {
 module.exports.getId = getId;
 
 // this needs to handle a statement coming in
-module.exports.convertActor = function (actor, writer) {
+let convertActor = function (actor, writer) {
 
-    let actorid = this.getId(actor);
+    let actorid = getId(actor);
     let actorObjectType = getObjectType(actor);
 
     // objectType
@@ -39,17 +39,18 @@ module.exports.convertActor = function (actor, writer) {
     if (actor.name) {
         writer.addTriple({
             subject: actorid,
-            predicate: 'http://xmlns.com/foaf/spec/#name',
+            predicate: 'http://xmlns.com/foaf/0.1/#name',
             object: `"${actor.name}"`
         });
     }
 
     if (actor.member) {
         for (let i in actor.member) {
-            this.convertActor(actor.member[i], writer);
+            convertActor(actor.member[i], writer);
         }
     }
 };
+module.exports.convertActor = convertActor;
 
 module.exports.convert = function (stmt, writer) {
     let actor = stmt.actor;
@@ -63,5 +64,5 @@ module.exports.convert = function (stmt, writer) {
         object: actorid
     });
 
-    this.convertActor(actor, writer);
+    convertActor(actor, writer);
 };

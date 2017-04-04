@@ -51,6 +51,8 @@ let convertActivity = function (object, writer) {
                 predicate: 'http://www.w3.org/2000/01/rdf-schema#subClassOf',
                 object: 'https://w3id.org/xapi#Activity'
             });
+
+            typefound = true;
         }
 
         // moreInfo
@@ -78,6 +80,8 @@ let convertActivity = function (object, writer) {
         });
     }
 };
+
+module.exports.convertActivity = convertActivity;
 
 module.exports.convert = function (stmt, writer) {
     let objTypeConvert = {
