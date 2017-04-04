@@ -4,20 +4,28 @@ let getObjectType = function (actor) {
             'http://xmlns.com/foaf/spec/#Agent';
 };
 
+// TODO: handle anonymous
+// -- sha 1 sum isn't right.. it's a string, can't be a subject later
+// -- -- there are places where just a guid is used, or hashed mbox.. we need to give them a scheme.. xapi:..
+// -- remove spaces from account.name.. encodeURIComponent?
+// -- change objectType to rdf:type?
 let getId = function (actor) {
-    return actor['mbox'] || 
-           actor['mbox_sha1sum'] || 
-           actor['openid'] || 
-           actor['account']['homePage'] + "#" + actor['account']['name'];
+    return actor['mbox'] ||
+           `mbox_sha1sum:${actor['mbox_sha1sum']}` ||
+           `${actor['openid']}` ||
+           ( (actor['account'])?
+           actor['account']['homePage'] + "#" + encodeURIComponent(actor['account']['name']) :
+           "anon:anonymous");
 };
 
 module.exports.getId = getId;
 
+// this needs to handle a statement coming in
 module.exports.convertActor = function (actor, writer) {
 
     let actorid = this.getId(actor);
     let actorObjectType = getObjectType(actor);
-    
+
     // objectType
     writer.addTriple({
         subject: actorid,

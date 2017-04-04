@@ -2,7 +2,7 @@ var n3 = require('n3'),
     request = require('request'),
     fs = require('fs'),
     statement = require('./parts/statement');
-    
+
 var writer = n3.Writer({
     prefixes: {
         xapi: 'https://w3id.org/xapi#',
@@ -15,11 +15,11 @@ var writer = n3.Writer({
 var count = 0;
 
 var convert = function (sr, writer, callback) {
-    // for (var i in sr.statements) {
-    //     statement.convert(sr.statements[i], writer);
-    // };
-    
-    statement.convert(sr.statements[0], writer);
+    for (var i in sr.statements) {
+        statement.convert(sr.statements[i], writer);
+    };
+
+    // statement.convert(sr.statements[0], writer);
     console.log(sr.statements[0]);
 
     callback(sr);

@@ -4,7 +4,7 @@ var util = require('../util/util')
     ,object = require('./object')
     ,result = require('./result')
 //     ,context = require('./context')
-//     ,authority = require('./authority')
+    ,authority = require('./authority')
 //     ,attachments = require('./attachments')
     ;
 
@@ -15,7 +15,7 @@ var convertParts = function (stmt, writer, substmt) {
     result.convert(stmt, writer);
     // context.convert(stmt, writer);
     // // substmt = no authority
-    // if (!substmt) authority.convert(stmt, writer);
+    if (!substmt) authority.convert(stmt, writer);
     // attachments.convert(stmt, writer);
 };
 
@@ -33,14 +33,14 @@ module.exports.convert = function (stmt, writer) {
         predicate: 'https://w3id.org/xapi#timestamp',
         object: `"${stmt.timestamp}"`
     });
-    
+
     //stored
     writer.addTriple({
         subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
         predicate: 'https://w3id.org/xapi#stored',
         object: `"${stmt.stored}"`
     });
-    
+
     // version
     writer.addTriple({
         subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
@@ -58,7 +58,7 @@ module.exports.convertSubStatement = function (stmt, writer) {
         predicate: 'https://w3id.org/xapi#objectType',
         object: 'https://w3id.org/xapi#SubStatement'
     });
-    
+
     //timestamp
     writer.addTriple({
         subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
@@ -66,6 +66,7 @@ module.exports.convertSubStatement = function (stmt, writer) {
         object: `"${stmt.timestamp}"`
     });
 
+    // fix this
     convertParts(stmt, writer, true);
 };
 

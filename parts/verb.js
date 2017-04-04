@@ -9,6 +9,12 @@ module.exports.convert = function (stmt, writer) {
         object: verb.id
     });
 
+    writer.addTriple({
+        subject: verb.id,
+        predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        object: 'https://w3id.org/xapi#Verb'
+    });
+
     if (verb.display) {
         for (let key in verb.display) {
             if (verb.display.hasOwnProperty(key)) {

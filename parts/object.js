@@ -3,13 +3,13 @@ let util = require('../util/util'),
     actor = require('./actor'),
     extension = require('./extension');
 
+// TODO: if we know the activity definition type, do this
+// <act id> a <act def type>
+// <act def type> rdfs:subClassOf xapi:Activity
+// otherwise
+// <act id> a xapi:Activity
 let convertActivity = function (object, writer) {
-    writer.addTriple({
-        subject: object.id,
-        predicate: 'https://w3id.org/xapi#objectType',
-        object: 'https://w3id.org/xapi#Activity'
-    });
-
+    let typefound = false;
     // definition
     if (object.definition) {
         // name
@@ -37,13 +37,19 @@ let convertActivity = function (object, writer) {
                 }
             }
         }
-        
+
         // type
         if (object.definition.type) {
             writer.addTriple({
                 subject: object.id,
                 predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
                 object: object.definition.type
+            });
+
+            writer.addTriple({
+                subject: object.definition.type,
+                predicate: 'http://www.w3.org/2000/01/rdf-schema#subClassOf',
+                object: 'https://w3id.org/xapi#Activity'
             });
         }
 
@@ -63,17 +69,25 @@ let convertActivity = function (object, writer) {
             extension.convert(object.id, object.definition.extensions, writer);
         }
     }
-};
 
-let objTypeConvert = {
-    "Activity": convertActivity,
-    "StatementRef": statement.convertStatementRef,
-    "SubStatement": statement.convertSubStatement,
-    "Agent": actor.convertActor,
-    "Group": actor.convertActor
+    if (! typefound) {
+        writer.addTriple({
+            subject: object.id,
+            predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+            object: 'https://w3id.org/xapi#Activity'
+        });
+    }
 };
 
 module.exports.convert = function (stmt, writer) {
+    let objTypeConvert = {
+        "Activity": convertActivity,
+        "StatementRef": statement.convertStatementRef,
+        "SubStatement": statement.convertSubStatement,
+        "Agent": actor.convertActor,
+        "Group": actor.convertActor
+    };
+
     let object = stmt.object;
     let objType = object.objectType || "Activity";
 
