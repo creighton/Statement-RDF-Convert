@@ -3,7 +3,7 @@ var util = require('../util/util')
     ,verb = require('./verb')
     ,object = require('./object')
     ,result = require('./result')
-//     ,context = require('./context')
+    ,context = require('./context')
     ,authority = require('./authority')
 //     ,attachments = require('./attachments')
     ;
@@ -13,7 +13,7 @@ var convertParts = function (stmt, writer, substmt) {
     verb.convert(stmt, writer);
     object.convert(stmt, writer);
     result.convert(stmt, writer);
-    // context.convert(stmt, writer);
+    context.convert(stmt, writer);
     // // substmt = no authority
     if (!substmt) authority.convert(stmt, writer);
     // attachments.convert(stmt, writer);
