@@ -10,12 +10,14 @@ let getObjectType = function (actor) {
 // -- remove spaces from account.name.. encodeURIComponent?
 // -- change objectType to rdf:type?
 let getId = function (actor) {
-    return actor['mbox'] ||
-           `mbox_sha1sum:${actor['mbox_sha1sum']}` ||
-           `${actor['openid']}` ||
-           ( (actor['account'])?
-           actor['account']['homePage'] + "#" + encodeURIComponent(actor['account']['name']) :
-           "anon:anonymous");
+    let id = actor['mbox'] || actor['openid'];
+    if (id) return id;
+
+    if (actor['mbox_sha1sum']) return `mbox_sha1sum:${actor['mbox_sha1sum']}`;
+
+    return ( (actor['account'])?
+            actor['account']['homePage'] + "#" + encodeURIComponent(actor['account']['name']) :
+            "anon:anonymous");
 };
 
 module.exports.getId = getId;
