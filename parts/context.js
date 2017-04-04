@@ -2,7 +2,8 @@ var util = require('../util/util'),
     actor = require('./actor'),
     statement = require('./statement'),
     extension = require('./extension'),
-    object = require('./object');
+    object = require('./object'),
+    _s = require('../util/strings');
 
 var convertContextActivities = function (stmtid, ctxobj, writer) {
     for (key in ctxobj) {
@@ -13,8 +14,8 @@ var convertContextActivities = function (stmtid, ctxobj, writer) {
                 // convert activity
                 let objectid = caList[idx].id;
                 writer.addTriple({
-                    subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmtid,
-                    predicate: 'https://w3id.org/xapi#' + key,
+                    subject: _s.lrsstmt + stmtid,
+                    predicate: _s.xapi + key,
                     object: objectid
                 });
 
@@ -32,8 +33,8 @@ module.exports.convert = function (stmt, writer) {
     //registration
     if (context.registration) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#registration',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'registration',
             object: context.registration
         });
     }
@@ -41,8 +42,8 @@ module.exports.convert = function (stmt, writer) {
     //revision
     if (context.revision) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#revision',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'revision',
             object: context.revision
         });
     }
@@ -50,8 +51,8 @@ module.exports.convert = function (stmt, writer) {
     //platform
     if (context.platform) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#platform',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'platform',
             object: context.platform
         });
     }
@@ -59,8 +60,8 @@ module.exports.convert = function (stmt, writer) {
     //language
     if (context.language) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#language',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'language',
             object: context.language
         });
     }
@@ -68,8 +69,8 @@ module.exports.convert = function (stmt, writer) {
     // instructor
     if (context.instructor) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#instructor',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'instructor',
             object: actor.getId(context.instructor)
         });
 
@@ -79,8 +80,8 @@ module.exports.convert = function (stmt, writer) {
     // team
     if (context.team) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#team',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'team',
             object: actor.getId(context.team)
         });
 
@@ -95,8 +96,8 @@ module.exports.convert = function (stmt, writer) {
     // statements
     if (context.statement) {
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#contextStatement',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'contextStatement',
             object: context.statement.id
         });
 
@@ -105,7 +106,7 @@ module.exports.convert = function (stmt, writer) {
 
     // extensions
     if (context.extensions) {
-        extension.convert('https://lrs.adlnet.gov/xapi/statements/' + stmt.id, context.extensions, writer);
+        extension.convert(_s.lrsstmt + stmt.id, context.extensions, writer);
     }
 
 };

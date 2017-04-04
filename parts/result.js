@@ -1,4 +1,5 @@
 let util = require('../util/util'),
+    _s = require('../util/strings'),
     extension = require('./extension');
 
 let convertScore = function (resultBlank, score, writer) {
@@ -6,8 +7,8 @@ let convertScore = function (resultBlank, score, writer) {
         if (score.hasOwnProperty(key)) {
             writer.addTriple({
                 subject: resultBlank,
-                predicate: 'https://w3id.org/xapi#' + key,
-                object: `"${score[key]}"^^${(key == 'scaled')?"http://www.w3.org/2001/XMLSchema#decimal":"http://www.w3.org/2001/XMLSchema#integer"}`
+                predicate: _s.xapi + key,
+                object: `"${score[key]}"^^${(key == 'scaled')? _s.xsd + 'decimal': _s.xsd + 'integer'}`
             });
         }
     }
@@ -21,8 +22,8 @@ module.exports.convert = function (stmt, writer) {
 
     // stmt has result
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#Result',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.xapi + 'Result',
         object: resultBlank
     });
 
@@ -32,23 +33,23 @@ module.exports.convert = function (stmt, writer) {
     if (result.success) {
         writer.addTriple({
             subject: resultBlank,
-            predicate: 'https://w3id.org/xapi#success',
-            object: `"${result.success}"^^http://www.w3.org/2001/XMLSchema#boolean`
+            predicate: _s.xapi + 'success',
+            object: `"${result.success}"^^${_s.xsd}boolean`
         });
     }
 
     if (result.completion) {
         writer.addTriple({
             subject: resultBlank,
-            predicate: 'https://w3id.org/xapi#completion',
-            object: `"${result.completion}"^^http://www.w3.org/2001/XMLSchema#boolean`
+            predicate: _s.xapi + 'completion',
+            object: `"${result.completion}"^^${_s.xsd}boolean`
         });
     }
 
     if (result.response) {
         writer.addTriple({
             subject: resultBlank,
-            predicate: 'https://w3id.org/xapi#response',
+            predicate: _s.xapi + 'response',
             object: `"${result.response}"`
         });
     }
@@ -56,8 +57,8 @@ module.exports.convert = function (stmt, writer) {
     if (result.duration) {
         writer.addTriple({
             subject: resultBlank,
-            predicate: 'https://w3id.org/xapi#duration',
-            object: `"${result.duration}"^^http://www.w3.org/2001/XMLSchema#duration`
+            predicate: _s.xapi + 'duration',
+            object: `"${result.duration}"^^${_s.xsd}duration`
         });
     }
 

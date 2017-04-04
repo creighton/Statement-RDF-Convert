@@ -1,9 +1,10 @@
-var actor = require('./actor');
+var actor = require('./actor'),
+    _s = require('../util/strings');
 
 module.exports.convert = function (stmt, writer) {
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#Authority',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.xapi + 'Authority',
         object: actor.getId(stmt.authority)
     });
 

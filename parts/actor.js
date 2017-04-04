@@ -1,14 +1,11 @@
+var _s = require('../util/strings');
+
 let getObjectType = function (actor) {
     return (actor.objectType) ?
-            'http://xmlns.com/foaf/0.1/#' + actor.objectType :
-            'http://xmlns.com/foaf/0.1/#Agent';
+            _s.foaf + actor.objectType :
+            _s.foaf + 'Agent';
 };
 
-// TODO: handle anonymous
-// -- sha 1 sum isn't right.. it's a string, can't be a subject later
-// -- -- there are places where just a guid is used, or hashed mbox.. we need to give them a scheme.. xapi:..
-// -- remove spaces from account.name.. encodeURIComponent?
-// -- change objectType to rdf:type?
 let getId = function (actor) {
     let id = actor['mbox'] || actor['openid'];
     if (id) return id;
@@ -31,7 +28,7 @@ let convertActor = function (actor, writer) {
     // objectType
     writer.addTriple({
         subject: actorid,
-        predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        predicate: _s.rdf + 'type',
         object: actorObjectType
     });
 
@@ -39,7 +36,7 @@ let convertActor = function (actor, writer) {
     if (actor.name) {
         writer.addTriple({
             subject: actorid,
-            predicate: 'http://xmlns.com/foaf/0.1/#name',
+            predicate: _s.foaf + 'name',
             object: `"${actor.name}"`
         });
     }
@@ -55,12 +52,11 @@ module.exports.convertActor = convertActor;
 module.exports.convert = function (stmt, writer) {
     let actor = stmt.actor;
     let actorid = getId(actor);
-    if (actorid == "http://example.com/watch-videoyoutube") console.log(stmt);
 
     // id
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#Actor',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.xapi + 'Actor',
         object: actorid
     });
 

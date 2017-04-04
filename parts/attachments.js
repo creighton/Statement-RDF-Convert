@@ -1,4 +1,5 @@
-var util = require('../util/util');
+var util = require('../util/util')
+    _s = require('../util/strings');
 
 module.exports.convert = function (stmt, writer) {
     if (! stmt.attachments) return;
@@ -8,15 +9,15 @@ module.exports.convert = function (stmt, writer) {
         let attid = util.getBlank();
 
         writer.addTriple({
-            subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-            predicate: 'https://w3id.org/xapi#Attachment',
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.xapi + 'Attachment',
             object: attid
         });
 
         // usageType - require
         writer.addTriple({
             subject: attid,
-            predicate: 'https://w3id.org/xapi#usageType',
+            predicate: _s.xapi + 'usageType',
             object: att.usageType
         });
 
@@ -26,7 +27,7 @@ module.exports.convert = function (stmt, writer) {
                 if (att.display.hasOwnProperty(key)) {
                     writer.addTriple({
                         subject: attid,
-                        predicate: "https://w3id.org/xapi#display",
+                        predicate: _s.xapi + 'display',
                         object: `"${att.display[key]}"@${key}`
                     });
                 }
@@ -38,7 +39,7 @@ module.exports.convert = function (stmt, writer) {
             if (att.description.hasOwnProperty(key)) {
                 writer.addTriple({
                     subject: attid,
-                    predicate: 'https://w3id.org/xapi#description',
+                    predicate: _s.xapi + 'description',
                     object: `"${att.description[key]}"@${key}`
                 });
             }
@@ -47,21 +48,21 @@ module.exports.convert = function (stmt, writer) {
         // contentType - require
         writer.addTriple({
             subject: attid,
-            predicate: 'https://w3id.org/xapi#contentType',
+            predicate: _s.xapi + 'contentType',
             object: att.contentType
         });
 
         // length - require
         writer.addTriple({
             subject: attid,
-            predicate: 'https://w3id.org/xapi#length',
+            predicate: _s.xapi + 'length',
             object: att.length
         });
 
         // sha2 - require
         writer.addTriple({
             subject: attid,
-            predicate: 'https://w3id.org/xapi#sha2',
+            predicate: _s.xapi + 'sha2',
             object: att.sha2
         });
 
@@ -69,7 +70,7 @@ module.exports.convert = function (stmt, writer) {
         if (att.fileUrl) {
             writer.addTriple({
                 subject: attid,
-                predicate: 'https://w3id.org/xapi#fileUrl',
+                predicate: _s.xapi + 'fileUrl',
                 object: att.fileUrl
             });
         }

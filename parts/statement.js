@@ -6,6 +6,7 @@ var util = require('../util/util')
     ,context = require('./context')
     ,authority = require('./authority')
     ,attachments = require('./attachments')
+    ,_s = require('../util/strings')
     ;
 
 var convertParts = function (stmt, writer, substmt) {
@@ -22,29 +23,29 @@ var convertParts = function (stmt, writer, substmt) {
 module.exports.convert = function (stmt, writer) {
     // id
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-        object: 'https://w3id.org/xapi#Statement'
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.rdf + 'type',
+        object: _s.xapi + 'Statement'
     });
 
     //timestamp
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#timestamp',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.lrsstmt + 'timestamp',
         object: `"${stmt.timestamp}"`
     });
 
     //stored
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#stored',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.lrsstmt + 'stored',
         object: `"${stmt.stored}"`
     });
 
     // version
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#version',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.lrsstmt + 'version',
         object: `"${stmt.version}"`
     });
 
@@ -55,14 +56,14 @@ module.exports.convertSubStatement = function (stmt, writer) {
     // id
     writer.addTriple({
         subject: util.getBlank(),
-        predicate: 'https://w3id.org/xapi#objectType',
-        object: 'https://w3id.org/xapi#SubStatement'
+        predicate: _s.lrsstmt + 'objectType',
+        object: _s.lrsstmt + 'SubStatement'
     });
 
     //timestamp
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#timestamp',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.lrsstmt + 'timestamp',
         object: `"${stmt.timestamp}"`
     });
 
@@ -73,7 +74,7 @@ module.exports.convertSubStatement = function (stmt, writer) {
 module.exports.convertStatementRef = function (stmtref, writer) {
     writer.addTriple({
         subject: stmtref.id,
-        predicate: 'https://w3id.org/xapi#objectType',
-        object: 'https://w3id.org/xapi#StatementRef'
+        predicate: _s.lrsstmt + 'objectType',
+        object: _s.lrsstmt + 'StatementRef'
     });
 };

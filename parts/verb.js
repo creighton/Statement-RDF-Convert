@@ -4,15 +4,15 @@ module.exports.convert = function (stmt, writer) {
     let verb = stmt.verb;
     // id
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#Verb',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.xapi + 'Verb',
         object: verb.id
     });
 
     writer.addTriple({
         subject: verb.id,
-        predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-        object: 'https://w3id.org/xapi#Verb'
+        predicate: _s.rdf + 'type',
+        object: _s.xapi + 'Verb'
     });
 
     if (verb.display) {
@@ -20,7 +20,7 @@ module.exports.convert = function (stmt, writer) {
             if (verb.display.hasOwnProperty(key)) {
                 writer.addTriple({
                     subject: verb.id,
-                    predicate: "https://w3id.org/xapi#display",
+                    predicate: _s.xapi + 'display',
                     object: `"${verb.display[key]}"@${key}`
                 });
             }

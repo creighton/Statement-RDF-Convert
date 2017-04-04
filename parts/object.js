@@ -1,13 +1,9 @@
 let util = require('../util/util'),
     statement = require('./statement'),
     actor = require('./actor'),
-    extension = require('./extension');
+    extension = require('./extension'),
+    _s = require('../util/strings');
 
-// TODO: if we know the activity definition type, do this
-// <act id> a <act def type>
-// <act def type> rdfs:subClassOf xapi:Activity
-// otherwise
-// <act id> a xapi:Activity
 let convertActivity = function (object, writer) {
     let typefound = false;
     // definition
@@ -18,7 +14,7 @@ let convertActivity = function (object, writer) {
                 if (object.definition.name.hasOwnProperty(key)) {
                     writer.addTriple({
                         subject: object.id,
-                        predicate: 'https://w3id.org/xapi#activityName',
+                        predicate: _s.xapi + 'activityName',
                         object: `"${object.definition.name[key]}"@${key}`
                     });
                 }
@@ -31,7 +27,7 @@ let convertActivity = function (object, writer) {
                 if (object.definition.description.hasOwnProperty(key)) {
                     writer.addTriple({
                         subject: object.id,
-                        predicate: 'https://w3id.org/xapi#description',
+                        predicate: _s.xapi + 'description',
                         object: `"${object.definition.description[key]}"@${key}`
                     });
                 }
@@ -42,14 +38,14 @@ let convertActivity = function (object, writer) {
         if (object.definition.type) {
             writer.addTriple({
                 subject: object.id,
-                predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+                predicate: _s.rdf + 'type',
                 object: object.definition.type
             });
 
             writer.addTriple({
                 subject: object.definition.type,
-                predicate: 'http://www.w3.org/2000/01/rdf-schema#subClassOf',
-                object: 'https://w3id.org/xapi#Activity'
+                predicate: _s.rdfs + 'subClassOf',
+                object: _s.xapi + 'Activity'
             });
 
             typefound = true;
@@ -59,7 +55,7 @@ let convertActivity = function (object, writer) {
         if (object.definition.moreInfo) {
             writer.addTriple({
                 subject: object.id,
-                predicate: 'https://w3id.org/xapi#moreInfo',
+                predicate: _s.xapi + 'moreInfo',
                 object: object.definition.moreInfo
             });
         }
@@ -75,8 +71,8 @@ let convertActivity = function (object, writer) {
     if (! typefound) {
         writer.addTriple({
             subject: object.id,
-            predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-            object: 'https://w3id.org/xapi#Activity'
+            predicate: _s.rdf + 'type',
+            object: _s.xapi + 'Activity'
         });
     }
 };
@@ -98,8 +94,8 @@ module.exports.convert = function (stmt, writer) {
     // id
     let theid = object.id || actor.getId(object);
     writer.addTriple({
-        subject: 'https://lrs.adlnet.gov/xapi/statements/' + stmt.id,
-        predicate: 'https://w3id.org/xapi#Object',
+        subject: _s.lrsstmt + stmt.id,
+        predicate: _s.xapi + 'Object',
         object: theid
     });
 
