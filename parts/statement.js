@@ -35,7 +35,7 @@ module.exports.convert = function (stmt, writer) {
     if (stmt.timestamp) {
         writer.addTriple({
             subject: _s.lrsstmt + stmt.id,
-            predicate: _s.lrsstmt + 'timestamp',
+            predicate: _s.xapi + 'timestamp',
             object: `"${stmt.timestamp}"`
         });
     }
@@ -44,7 +44,7 @@ module.exports.convert = function (stmt, writer) {
     if (stmt.stored) {
         writer.addTriple({
             subject: _s.lrsstmt + stmt.id,
-            predicate: _s.lrsstmt + 'stored',
+            predicate: _s.xapi + 'stored',
             object: `"${stmt.stored}"`
         });
     }
@@ -53,7 +53,7 @@ module.exports.convert = function (stmt, writer) {
     if (stmt.version) {
         writer.addTriple({
             subject: _s.lrsstmt + stmt.id,
-            predicate: _s.lrsstmt + 'version',
+            predicate: _s.xapi + 'version',
             object: `"${stmt.version}"`
         });
     }
@@ -65,14 +65,14 @@ module.exports.convertSubStatement = function (stmt, writer) {
     // id
     writer.addTriple({
         subject: util.getBlank(),
-        predicate: _s.lrsstmt + 'objectType',
-        object: _s.lrsstmt + 'SubStatement'
+        predicate: _s.xapi + 'objectType',
+        object: _s.xapi + 'SubStatement'
     });
 
     //timestamp
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
-        predicate: _s.lrsstmt + 'timestamp',
+        predicate: _s.xapi + 'timestamp',
         object: `"${stmt.timestamp}"`
     });
 
@@ -83,7 +83,7 @@ module.exports.convertSubStatement = function (stmt, writer) {
 module.exports.convertStatementRef = function (stmtref, writer) {
     writer.addTriple({
         subject: stmtref.id,
-        predicate: _s.lrsstmt + 'objectType',
-        object: _s.lrsstmt + 'StatementRef'
+        predicate: _s.xapi + 'objectType',
+        object: _s.xapi + 'StatementRef'
     });
 };

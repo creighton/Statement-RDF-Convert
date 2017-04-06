@@ -1,5 +1,7 @@
 var _s = require('../util/strings');
 
+// TODO: foaf member for members of a group
+
 let getObjectType = function (actor) {
     return (actor.objectType) ?
             _s.foaf + actor.objectType :
@@ -43,7 +45,13 @@ let convertActor = function (actor, writer) {
 
     if (actor.member) {
         for (let i in actor.member) {
-            convertActor(actor.member[i], writer);
+            let mem = actor.member[i];
+            writer.addTriple({
+                subject: actorid,
+                predicate: _s.foaf + 'member',
+                object: `${getId(mem)}`
+            });
+            convertActor(mem, writer);
         }
     }
 };
@@ -56,7 +64,7 @@ module.exports.convert = function (stmt, writer) {
     // id
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
-        predicate: _s.xapi + 'Actor',
+        predicate: _s.xapi + 'actor',
         object: actorid
     });
 

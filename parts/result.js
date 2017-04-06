@@ -23,7 +23,7 @@ module.exports.convert = function (stmt, writer) {
     // stmt has result
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
-        predicate: _s.xapi + 'Result',
+        predicate: _s.xapi + 'result',
         object: resultBlank
     });
 

@@ -83,18 +83,25 @@ var addstuff = function(s) {
 };
 
 var loadAllTests = function() {
-    var stmts = [];
     glob.sync('./test/statements/**/*.json').forEach(function(file) {
-        stmts.push(addstuff(require(path.resolve(file))));
+        let stmt = addstuff(require(path.resolve(file)));
+        let filename = path.basename(file).split('.')[0];
+        convert({"statements":[stmt]}, writer, writeToFile(filename));
     });
-    count = stmts.length;
-    convert({"statements":stmts}, writer, noMore);
 };
 
 var loadTest = function (test) {
-    count = 1;
     var stmtres = {"statements": [addstuff(require(`./test/statements/${test}`))]};
-    convert(stmtres, writer, noMore);
+    convert(stmtres, writer, writeToFile(test));
+};
+
+var writeToFile = function(filename) {
+    return function(sr) {
+        console.log(`i think done: ${filename}`);
+        writer.end(function (err, res) {
+            fs.writeFileSync(`./${filename}.ttl`, res);
+        });
+    };
 };
 
 if (process.argv[2]) {

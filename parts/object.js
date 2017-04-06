@@ -95,7 +95,7 @@ module.exports.convert = function (stmt, writer) {
     let theid = object.id || actor.getId(object);
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
-        predicate: _s.xapi + 'Object',
+        predicate: _s.xapi + 'object',
         object: theid
     });
 

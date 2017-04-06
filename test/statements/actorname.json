@@ -1,0 +1,5 @@
+{
+    "actor": {"mbox":"mailto:tom@example.com", "name":"tom creighton"},
+    "verb": {"id":"http://example.com/test/verb1"},
+    "object": {"id":"http://example.com/test/obj1"}
+}

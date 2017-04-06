@@ -5,7 +5,7 @@ module.exports.convert = function (stmt, writer) {
     // id
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
-        predicate: _s.xapi + 'Verb',
+        predicate: _s.xapi + 'verb',
         object: verb.id
     });
 

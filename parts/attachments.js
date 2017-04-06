@@ -10,7 +10,7 @@ module.exports.convert = function (stmt, writer) {
 
         writer.addTriple({
             subject: _s.lrsstmt + stmt.id,
-            predicate: _s.xapi + 'Attachment',
+            predicate: _s.xapi + 'attachment',
             object: attid
         });
 
