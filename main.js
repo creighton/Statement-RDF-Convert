@@ -2,7 +2,10 @@ var n3 = require('n3'),
     request = require('request'),
     fs = require('fs'),
     statement = require('./parts/statement'),
-    _s = require('./util/strings');
+    _s = require('./util/strings'),
+    glob = require('glob'),
+    path = require('path'),
+    uuid4 = require('uuid/v4');
 
 var writer = n3.Writer({
     prefixes: {
@@ -22,8 +25,8 @@ var convert = function (sr, writer, callback) {
     //     statement.convert(sr.statements[i], writer);
     // };
 
+    console.log(sr.statements[0]);
     statement.convert(sr.statements[0], writer);
-    // console.log(sr.statements[0]);
 
     callback(sr);
 };
@@ -64,10 +67,40 @@ var makeRequest = function(more, callback) {
         'headers': {
             'X-Experience-API-Version':'1.0.3'
         }
-    }
+    };
 
     console.log(`making request to ${options.url}`);
     request(options, callback);
 };
 
-makeRequest(null, handleStmtResponse);
+var addstuff = function(s) {
+    s.id = s.id || uuid4();
+    s.version = s.version || "1.0.0";
+    s.timestamp = s.timestamp || (new Date()).toISOString();
+    s.stored = s.stored || (new Date()).toISOString();
+    s.authority = s.authority || {"mbox":"anon@example.com"};
+    return s;
+};
+
+var loadAllTests = function() {
+    var stmts = [];
+    glob.sync('./test/statements/**/*.json').forEach(function(file) {
+        stmts.push(addstuff(require(path.resolve(file))));
+    });
+    count = stmts.length;
+    convert({"statements":stmts}, writer, noMore);
+};
+
+var loadTest = function (test) {
+    count = 1;
+    var stmtres = {"statements": [addstuff(require(`./test/statements/${test}`))]};
+    convert(stmtres, writer, noMore);
+};
+
+if (process.argv[2]) {
+    if (process.argv[2] == "all") return loadAllTests();
+    return loadTest(process.argv[2]);
+}
+else {
+    makeRequest(null, handleStmtResponse);
+}

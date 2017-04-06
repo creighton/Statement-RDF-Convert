@@ -7,6 +7,7 @@ var util = require('../util/util')
     ,authority = require('./authority')
     ,attachments = require('./attachments')
     ,_s = require('../util/strings')
+    ,uuid4 = require('uuid/v4')
     ;
 
 var convertParts = function (stmt, writer, substmt) {
@@ -21,6 +22,8 @@ var convertParts = function (stmt, writer, substmt) {
 };
 
 module.exports.convert = function (stmt, writer) {
+    // make sure the statement has an id
+    stmt.id = stmt.id || uuid4();
     // id
     writer.addTriple({
         subject: _s.lrsstmt + stmt.id,
@@ -29,25 +32,31 @@ module.exports.convert = function (stmt, writer) {
     });
 
     //timestamp
-    writer.addTriple({
-        subject: _s.lrsstmt + stmt.id,
-        predicate: _s.lrsstmt + 'timestamp',
-        object: `"${stmt.timestamp}"`
-    });
+    if (stmt.timestamp) {
+        writer.addTriple({
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.lrsstmt + 'timestamp',
+            object: `"${stmt.timestamp}"`
+        });
+    }
 
     //stored
-    writer.addTriple({
-        subject: _s.lrsstmt + stmt.id,
-        predicate: _s.lrsstmt + 'stored',
-        object: `"${stmt.stored}"`
-    });
+    if (stmt.stored) {
+        writer.addTriple({
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.lrsstmt + 'stored',
+            object: `"${stmt.stored}"`
+        });
+    }
 
     // version
-    writer.addTriple({
-        subject: _s.lrsstmt + stmt.id,
-        predicate: _s.lrsstmt + 'version',
-        object: `"${stmt.version}"`
-    });
+    if (stmt.version) {
+        writer.addTriple({
+            subject: _s.lrsstmt + stmt.id,
+            predicate: _s.lrsstmt + 'version',
+            object: `"${stmt.version}"`
+        });
+    }
 
     convertParts(stmt, writer, false);
 };

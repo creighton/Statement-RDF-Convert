@@ -9,8 +9,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "glob": "^7.1.1",
     "n3": "^0.9.1",
     "ne": "0.0.26",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "uuid": "^3.0.1"
   }
 }
