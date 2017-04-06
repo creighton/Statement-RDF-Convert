@@ -1,3 +1,4 @@
+// jason's xapi statement model: https://drive.google.com/file/d/0BxhK5TH2EsphZFBXeVNnSGozWEE/view
 var n3 = require('n3'),
     request = require('request'),
     fs = require('fs'),

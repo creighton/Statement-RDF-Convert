@@ -9,11 +9,26 @@ module.exports.convert = function (stmt, writer) {
         object: verb.id
     });
 
+//rdfs subproperty
+    // optional format
+    // writer.addTriple({
+    //     subject: _s.lrsstmt + stmt.id,
+    //     predicate: verb.id,
+    //     object: stmt.object.id || require('./actor').getId(stmt.object)
+    // });
+
     writer.addTriple({
         subject: verb.id,
         predicate: _s.rdf + 'type',
         object: _s.xapi + 'Verb'
     });
+
+    //optional format
+    // writer.addTriple({
+    //     subject: verb.id,
+    //     predicate: _s.rdfs + 'subProperty',
+    //     object: _s.xapi + 'Verb'
+    // });
 
     if (verb.display) {
         for (let key in verb.display) {
